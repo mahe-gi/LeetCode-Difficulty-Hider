@@ -1,68 +1,220 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <style>
+      :root {
+        --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --bg-secondary: rgba(255, 255, 255, 0.1);
+        --bg-tertiary: rgba(255, 255, 255, 0.15);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.8);
+        --text-tertiary: rgba(255, 255, 255, 0.7);
+        --border-color: rgba(255, 255, 255, 0.2);
+        --accent-color: #4ade80;
+        --accent-hover: #22c55e;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --switch-bg: rgba(255, 255, 255, 0.3);
+        --switch-border: rgba(255, 255, 255, 0.2);
+      }
+
+      .light-theme {
+        --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        --bg-secondary: rgba(0, 0, 0, 0.05);
+        --bg-tertiary: rgba(0, 0, 0, 0.08);
+        --text-primary: #1e293b;
+        --text-secondary: rgba(30, 41, 59, 0.8);
+        --text-tertiary: rgba(30, 41, 59, 0.7);
+        --border-color: rgba(0, 0, 0, 0.1);
+        --accent-color: #3b82f6;
+        --accent-hover: #2563eb;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --switch-bg: rgba(0, 0, 0, 0.1);
+        --switch-border: rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        width: 280px;
-        padding: 16px;
+        width: 320px;
+        min-height: 480px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Oxygen, Ubuntu, Cantarell, sans-serif;
-        color: #2c3e50;
-        background: #f8f9fa;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        padding: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
 
       .header {
+        text-align: center;
+        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .logo-container {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        background: var(--bg-secondary);
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #e9ecef;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 2px solid var(--border-color);
+        transition: all 0.3s ease;
       }
 
       .logo {
-        width: 24px;
-        height: 24px;
-        margin-right: 8px;
+        width: 32px;
+        height: 32px;
+        filter: var(--logo-filter);
+        transition: all 0.3s ease;
+      }
+
+      .dark-theme .logo {
+        filter: brightness(0) invert(1);
+      }
+
+      .light-theme .logo {
+        filter: none;
       }
 
       .title {
-        font-size: 16px;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        text-shadow: 0 2px 4px var(--shadow-color);
+      }
+
+      .subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+        font-weight: 400;
+      }
+
+      .stats-container {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+      }
+
+      .stats-title {
+        font-size: 14px;
         font-weight: 600;
-        margin: 0;
+        margin-bottom: 12px;
+        opacity: 0.9;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 12px 8px;
+        background: var(--bg-tertiary);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+      }
+
+      .stat-value {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .section {
-        margin-bottom: 16px;
+        margin-bottom: 20px;
       }
 
       .section-title {
         font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 12px;
-        color: #495057;
+        font-weight: 600;
+        margin-bottom: 16px;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .section-icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
       }
 
       .toggle-container {
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+      }
+
+      .toggle-container:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px var(--shadow-color);
+      }
+
+      .toggle-content {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 8px 12px;
-        background: white;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .toggle-info {
+        flex: 1;
       }
 
       .toggle-label {
         font-size: 14px;
-        color: #495057;
+        font-weight: 500;
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .toggle-description {
+        font-size: 12px;
+        opacity: 0.7;
+        line-height: 1.4;
       }
 
       .switch {
         position: relative;
         display: inline-block;
-        width: 40px;
-        height: 24px;
+        width: 48px;
+        height: 28px;
+        flex-shrink: 0;
       }
 
       .switch input {
@@ -78,122 +230,346 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #e9ecef;
-        transition: 0.3s;
-        border-radius: 24px;
+        background: var(--switch-bg);
+        transition: all 0.3s ease;
+        border-radius: 28px;
+        border: 2px solid var(--switch-border);
       }
 
       .slider:before {
         position: absolute;
         content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: 0.3s;
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        bottom: 2px;
+        background: white;
+        transition: all 0.3s ease;
         border-radius: 50%;
+        box-shadow: 0 2px 4px var(--shadow-color);
       }
 
       input:checked + .slider {
-        background-color: #3b82f6;
+        background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+        border-color: rgba(74, 222, 128, 0.5);
       }
 
       input:checked + .slider:before {
-        transform: translateX(16px);
+        transform: translateX(20px);
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: var(--bg-secondary);
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+      }
+
+      .theme-toggle:hover {
+        background: var(--bg-tertiary);
+        transform: scale(1.1);
+      }
+
+      .theme-icon {
+        width: 16px;
+        height: 16px;
+        filter: var(--icon-filter);
+        transition: all 0.3s ease;
+      }
+
+      .dark-theme .theme-icon {
+        filter: brightness(0) invert(1);
+      }
+
+      .light-theme .theme-icon {
+        filter: none;
       }
 
       .footer {
-        font-size: 12px;
-        color: #6c757d;
+        margin-top: auto;
         text-align: center;
-        margin-top: 16px;
-        padding-top: 12px;
-        border-top: 1px solid #e9ecef;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .footer-text {
+        font-size: 12px;
+        opacity: 0.7;
+        margin-bottom: 8px;
       }
 
       .footer-links {
-        font-size: 10px;
-        margin-top: 8px;
-        color: #adb5bd;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
       }
 
       .footer-links a {
-        color: #6c757d;
+        color: var(--text-secondary);
         text-decoration: none;
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
       }
 
       .footer-links a:hover {
-        text-decoration: underline;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
       }
 
       .refresh-notice {
-        background: #fff3cd;
-        color: #856404;
-        padding: 8px;
-        border-radius: 4px;
-        margin-bottom: 16px;
+        background: rgba(251, 191, 36, 0.2);
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        color: #fbbf24;
+        padding: 12px;
+        border-radius: 12px;
+        margin-bottom: 20px;
         font-size: 13px;
         display: none;
+        backdrop-filter: blur(10px);
       }
 
       .notice-content {
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: space-between;
+        gap: 12px;
       }
 
       #refreshButton {
-        background: #856404;
-        color: white;
+        background: #fbbf24;
+        color: #1f2937;
         border: none;
-        padding: 4px 8px;
-        border-radius: 4px;
+        padding: 6px 12px;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
       }
 
       #refreshButton:hover {
-        background: #6d5204;
+        background: #f59e0b;
+        transform: translateY(-1px);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .quick-action-btn {
+        flex: 1;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .quick-action-btn:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px var(--shadow-color);
+      }
+
+      .quick-action-btn.active {
+        background: rgba(34, 197, 94, 0.3);
+        border-color: rgba(34, 197, 94, 0.5);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .container > * {
+        animation: fadeIn 0.5s ease forwards;
+      }
+
+      .container > *:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .container > *:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .container > *:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      .container > *:nth-child(5) {
+        animation-delay: 0.4s;
       }
     </style>
   </head>
-  <body>
-    <div id="refreshNotice" class="refresh-notice">
-      <div class="notice-content">
-        Please refresh the page to activate the extension
-        <button id="refreshButton">Refresh Now</button>
-      </div>
-    </div>
+  <body class="dark-theme">
+    <div class="container">
+      <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+        <svg class="theme-icon" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+          />
+        </svg>
+      </button>
 
-    <div class="header">
-      <img src="icon.png" alt="Logo" class="logo" />
-      <h1 class="title">LeetCode Difficulty Hider</h1>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Visibility Settings</div>
-      <div class="toggle-container">
-        <span class="toggle-label">Hide Difficulty Levels</span>
-        <label class="switch">
-          <input type="checkbox" id="difficultyToggle" />
-          <span class="slider"></span>
-        </label>
+      <div id="refreshNotice" class="refresh-notice">
+        <div class="notice-content">
+          <span>Please refresh the page to activate the extension</span>
+          <button id="refreshButton">Refresh Now</button>
+        </div>
       </div>
-      <div class="toggle-container">
-        <span class="toggle-label">Hide Acceptance Rate</span>
-        <label class="switch">
-          <input type="checkbox" id="acceptanceToggle" />
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
 
-    <div class="footer">
-      <span
-        >Made with &hearts; by
-        <a href="https://github.com/mahe-gi" target="_blank">Mahe</a></span
-      >
+      <div class="header">
+        <div class="logo-container">
+          <img src="icon.png" alt="Logo" class="logo" />
+        </div>
+        <h1 class="title">LeetCode Hider</h1>
+        <p class="subtitle">Enhanced Problem Solving Experience</p>
+      </div>
+
+      <div class="stats-container">
+        <div class="stats-title">Today's Progress</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value" id="problemsSolved">0</div>
+            <div class="stat-label">Solved</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="streakDays">0</div>
+            <div class="stat-label">Streak</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-action-btn" id="hideAllBtn">Hide All</button>
+        <button class="quick-action-btn" id="showAllBtn">Show All</button>
+        <button class="quick-action-btn" id="randomProblemBtn">Random</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+            <path
+              fill-rule="evenodd"
+              d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Visibility Settings
+        </div>
+
+        <div class="toggle-container">
+          <div class="toggle-content">
+            <div class="toggle-info">
+              <span class="toggle-label">Hide Difficulty Levels</span>
+              <div class="toggle-description">
+                Conceal problem difficulty indicators
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="difficultyToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="toggle-container">
+          <div class="toggle-content">
+            <div class="toggle-info">
+              <span class="toggle-label">Hide Acceptance Rate</span>
+              <div class="toggle-description">
+                Remove acceptance percentage display
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="acceptanceToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="toggle-container">
+          <div class="toggle-content">
+            <div class="toggle-info">
+              <span class="toggle-label">Hide Problem Tags</span>
+              <div class="toggle-description">
+                Conceal topic tags and categories
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="tagsToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="toggle-container">
+          <div class="toggle-content">
+            <div class="toggle-info">
+              <span class="toggle-label">Hide Solutions Tab</span>
+              <div class="toggle-description">
+                Remove solutions tab from problem page
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="solutionsToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="toggle-container">
+          <div class="toggle-content">
+            <div class="toggle-info">
+              <span class="toggle-label">Focus Mode</span>
+              <div class="toggle-description">
+                Minimize distractions during solving
+              </div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="focusToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-text">
+          Made with &hearts; by
+          <a href="https://github.com/mahe-gi" target="_blank">Mahe</a>
+        </div>
+        <div class="footer-links">
+          <a href="#" id="exportSettings">Export</a>
+          <a href="#" id="importSettings">Import</a>
+          <a href="#" id="resetSettings">Reset</a>
+        </div>
+      </div>
     </div>
 
     <script src="popup.js"></script>

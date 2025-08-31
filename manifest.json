@@ -2,10 +2,14 @@
   "update_url": "https://clients2.google.com/service/update2/crx",
 
   "manifest_version": 3,
-  "name": "LeetCode Difficulty Hider",
-  "version": "1.1.2",
-  "description": "Hide difficulty levels on LeetCode",
-  "permissions": ["storage", "activeTab"],
+  "name": "LeetCode Enhanced Hider",
+  "version": "2.0.0",
+  "description": "Enhanced LeetCode experience with difficulty hiding, focus mode, statistics tracking, and more features",
+  "permissions": ["storage", "activeTab", "tabs", "contextMenus", "notifications"],
+  "host_permissions": ["https://leetcode.com/*", "https://leetcode.cn/*", "https://leetcode-cn.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -13,10 +17,53 @@
         "https://leetcode.cn/*",
         "https://leetcode-cn.com/*"
       ],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "LeetCode Enhanced Hider"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icon.png"],
+      "matches": ["https://leetcode.com/*", "https://leetcode.cn/*", "https://leetcode-cn.com/*"]
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Cmd+Shift+L"
+      },
+      "description": "Open LeetCode Hider"
+    },
+    "toggle-difficulty": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+D",
+        "mac": "Cmd+Shift+D"
+      },
+      "description": "Toggle difficulty hiding"
+    },
+    "toggle-focus-mode": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Cmd+Shift+F"
+      },
+      "description": "Toggle focus mode"
+    },
+    "random-problem": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "Cmd+Shift+R"
+      },
+      "description": "Go to random problem"
+    }
   }
 }
